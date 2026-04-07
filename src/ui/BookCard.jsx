@@ -1,5 +1,6 @@
 import { FaRegStar } from "react-icons/fa";
 import BookCardTags from "./BookCardTags";
+import { useNavigate } from "react-router";
 
 
 
@@ -29,10 +30,12 @@ import BookCardTags from "./BookCardTags";
 
 const BookCard = ({book}) => {
 
+  const navigate=useNavigate()
+
   const {bookId,bookName,author,image,tags,rating,category}=book
 
   return (
-<div className="card gap-6 rounded-2xl bg-base-100  p-5  border border-zinc-200" onClick={()=>alert('bubbled event')}>
+<div className="card gap-6 rounded-2xl bg-base-100  p-5  border border-zinc-200" onClick={()=>navigate(`/bookDetails/${bookId}`)}>
   <figure className="bg-[#F3F3F3] h-57.5 rounded-2xl">
     <img
       src={image}

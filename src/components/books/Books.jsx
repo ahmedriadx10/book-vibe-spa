@@ -6,7 +6,7 @@ import BookCard from "../../ui/BookCard";
 const Books = ({booksPromise}) => {
   
   const booksData=use(booksPromise)
-  console.log(booksData)
+
   return (
    <section className="py-25 max-w-7xl mx-auto w-[90%]">
 
