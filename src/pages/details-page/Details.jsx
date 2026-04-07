@@ -38,7 +38,7 @@ const needBook=bookData.find((book)=>book.bookId===Number(id))
   return (
     <section className="my-20 flex flex-col lg:flex-row lg:justify-center gap-13 max-w-7xl mx-auto w-[90%]">
 
-<div className="rounded-3xl bg-gray-200 max-w-xl p-10"><img src={image} className="h-full mx-auto " alt={bookName} /></div>
+<div className="rounded-3xl bg-gray-200 max-w-lg   p-10"><img src={image} className="h-full aspect-square object-fill mx-auto " alt={bookName} /></div>
 
 
 {/* books details */}
@@ -88,7 +88,7 @@ const needBook=bookData.find((book)=>book.bookId===Number(id))
 <ul className="space-y-3">
   <li className="flex gap-20"><span className="font-semibold text-black">{totalPages}</span></li>
   <li className="flex gap-20"> <span className="font-semibold text-black">{publisher}</span></li>
-  <li className="flex gap-20"> <span className="font-semibold text-black">{totalPages}</span></li>
+  <li className="flex gap-20"> <span className="font-semibold text-black">{yearOfPublishing}</span></li>
   <li className="flex gap-20"> <span className="font-semibold text-black">{rating}</span></li>
 </ul>
 
