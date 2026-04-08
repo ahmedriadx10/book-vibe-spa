@@ -23,21 +23,34 @@ export const getWishListBooksData=()=>{
 
 export const setReadListLs=(x)=>{
 
-const storedData=getReadListBooksData()
+// const storedData=getReadListBooksData()
 
 
-localStorage.setItem('readList',JSON.stringify([...storedData,x]))
+localStorage.setItem('readList',JSON.stringify(x))
 
-console.log(storedData)
+
 
 }
 
 
 export const setWishListLs=(x)=>{
 
-const storedData=getWishListBooksData()
+// const storedData=getWishListBooksData()
 
 
-localStorage.setItem('wishList',JSON.stringify([...storedData,x]))
+localStorage.setItem('wishList',JSON.stringify(x))
 
 }
+
+
+
+// export const updateWishList=(id)=>{
+
+//   const storedData=getWishListBooksData()
+
+  
+// localStorage.setItem('wishList',JSON.stringify(storedData.filter((x)=>x.bookId!==id)))
+
+
+
+// }

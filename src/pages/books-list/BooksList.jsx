@@ -3,10 +3,13 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import Readlist from "./read-list/Readlist";
 import Whishlist from "./whislist/Whishlist";
+import { useState } from "react";
+
 
 
 
 const BooksList = () => {
+
 
 
 
@@ -36,8 +39,8 @@ const BooksList = () => {
 
 <Tabs>
     <TabList>
-      <Tab> <span className="text-gray-500">Read Books</span></Tab>
-      <Tab> <span className="text-gray-500">Whislist Books</span> </Tab>
+      <Tab> Read Books</Tab>
+      <Tab> Whislist Books </Tab>
     </TabList>
 
     <TabPanel>
@@ -47,6 +50,7 @@ const BooksList = () => {
 <Whishlist/>
     </TabPanel>
   </Tabs>
+
 
 
 

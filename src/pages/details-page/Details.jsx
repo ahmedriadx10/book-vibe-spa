@@ -1,9 +1,9 @@
 import { useLoaderData, useParams } from "react-router";
 import BookCardTags from "../../ui/BookCardTags";
-import { toast } from "react-toastify";
 import { useContext } from "react";
 import { booksContext } from "../../contexts/book-list-data/BooksContext";
-import { setReadListLs, setWishListLs } from "../../local-storage-management/BooksDataManage";
+
+
 
 /**
  * 
@@ -30,7 +30,13 @@ const Details = () => {
 
   const { id } = useParams();
 
+
+
   const needBook = bookData.find((book) => book.bookId === Number(id));
+
+const {readListData, handleAddtoReadList}=useContext(booksContext)
+const {wishListData, handleAddtoWishList}=useContext(booksContext)
+
 
   const {
     bookId,
@@ -46,45 +52,11 @@ const Details = () => {
     publisher,
   } = needBook;
 
-  const { readListData, setReadListData } = useContext(booksContext);
-  const { wishListData, setWishListData } = useContext(booksContext);
+  
 
-  const handleAddReadList = () => {
-    const isExist = readListData.find((x) => x.bookId === needBook.bookId);
+  
 
-    if (isExist) {
-      toast.error("alread exist");
-      return;
-    }
 
-    setReadListData([...readListData, needBook]);
-    toast.success(`${bookName} Successfully added to read list`);
-    setReadListLs(needBook)
-  };
-
-  const handleAddWishlist = () => {
-    const isExist = readListData.find((x) => x.bookId === needBook.bookId);
-    const isExistWishList = wishListData.find(
-      (x) => x.bookId === needBook.bookId,
-    );
-
-    if (isExist) {
-      toast.error("books alread readlist");
-
-      return;
-    }
-
-    if (isExistWishList) {
-      toast.error("books alread wishlist");
-
-      return;
-    }
-
-    setWishListData([...wishListData, needBook]);
-    toast.success("books added to wishlist");
-setWishListLs(needBook)
-
-  };
 
   return (
     <section className="my-20 flex flex-col lg:flex-row lg:justify-center gap-13 max-w-7xl mx-auto w-[90%]">
@@ -164,12 +136,12 @@ setWishListLs(needBook)
         </div>
 
         <div className="mt-8 space-x-4">
-          <button className="btn" onClick={handleAddReadList}>
+          <button className="btn" onClick={()=>handleAddtoReadList(needBook)}>
             Add Readlist
           </button>
           <button
             className="btn text-white bg-(--blueMeno)"
-            onClick={handleAddWishlist}
+            onClick={()=>handleAddtoWishList(needBook)}
           >
             Add Whislist
           </button>

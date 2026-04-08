@@ -7,7 +7,7 @@ const WishListCard = ({ book }) => {
   const {
     bookId,
     bookName,
-    author,page,
+    author,
     image,
     tags,
     rating,
