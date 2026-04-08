@@ -1,8 +1,9 @@
-
 import { useLoaderData, useParams } from "react-router";
 import BookCardTags from "../../ui/BookCardTags";
-
-
+import { toast } from "react-toastify";
+import { useContext } from "react";
+import { booksContext } from "../../contexts/book-list-data/BooksContext";
+import { setReadListLs, setWishListLs } from "../../local-storage-management/BooksDataManage";
 
 /**
  * 
@@ -25,85 +26,156 @@ import BookCardTags from "../../ui/BookCardTags";
  */
 
 const Details = () => {
-const bookData=useLoaderData()
+  const bookData = useLoaderData();
 
+  const { id } = useParams();
 
-const {id}=useParams()
+  const needBook = bookData.find((book) => book.bookId === Number(id));
 
-const needBook=bookData.find((book)=>book.bookId===Number(id))
+  const {
+    bookId,
+    bookName,
+    author,
+    image,
+    tags,
+    rating,
+    category,
+    review,
+    totalPages,
+    yearOfPublishing,
+    publisher,
+  } = needBook;
 
- const {bookId,bookName,author,image,tags,rating,category,review,totalPages,yearOfPublishing,publisher}=needBook
+  const { readListData, setReadListData } = useContext(booksContext);
+  const { wishListData, setWishListData } = useContext(booksContext);
 
+  const handleAddReadList = () => {
+    const isExist = readListData.find((x) => x.bookId === needBook.bookId);
+
+    if (isExist) {
+      toast.error("alread exist");
+      return;
+    }
+
+    setReadListData([...readListData, needBook]);
+    toast.success(`${bookName} Successfully added to read list`);
+    setReadListLs(needBook)
+  };
+
+  const handleAddWishlist = () => {
+    const isExist = readListData.find((x) => x.bookId === needBook.bookId);
+    const isExistWishList = wishListData.find(
+      (x) => x.bookId === needBook.bookId,
+    );
+
+    if (isExist) {
+      toast.error("books alread readlist");
+
+      return;
+    }
+
+    if (isExistWishList) {
+      toast.error("books alread wishlist");
+
+      return;
+    }
+
+    setWishListData([...wishListData, needBook]);
+    toast.success("books added to wishlist");
+setWishListLs(needBook)
+
+  };
 
   return (
     <section className="my-20 flex flex-col lg:flex-row lg:justify-center gap-13 max-w-7xl mx-auto w-[90%]">
+      <div className="rounded-3xl bg-gray-200 max-w-lg   p-10">
+        <img
+          src={image}
+          className="h-full aspect-square object-fill mx-auto "
+          alt={bookName}
+        />
+      </div>
 
-<div className="rounded-3xl bg-gray-200 max-w-lg   p-10"><img src={image} className="h-full aspect-square object-fill mx-auto " alt={bookName} /></div>
+      {/* books details */}
+      <div className="max-w-2xl">
+        {/* books title area */}
 
+        <div className="space-y-4">
+          <h2 className="font-bold text-[40px]">{bookName}</h2>
+          <p className="text-gray-600 font-medium text-xl">By : {author}</p>
+        </div>
 
-{/* books details */}
-<div className="max-w-2xl">
+        <div className=" border-y border-zinc-200 py-4 my-6">
+          <span className="text-gray-600 font-medium text-xl">{category}</span>
+        </div>
 
-{/* books title area */}
+        {/* review section */}
 
-<div className="space-y-4">
+        <div>
+          <p className="text-gray-500 font-medium">
+            <strong className="text-[#111111]">Review: </strong> {review}
+          </p>
+        </div>
 
-<h2 className="font-bold text-[40px]">{bookName}</h2>
-<p className="text-gray-600 font-medium text-xl">By : {author}</p>
-</div>
+        <div className="py-6 flex gap-3 flex-wrap">
+          <span className="font-bold">Tag </span>
+          {tags.map((x, index) => (
+            <BookCardTags tag={x} key={index} />
+          ))}
+        </div>
 
-<div className=" border-y border-zinc-200 py-4 my-6">
-<span className="text-gray-600 font-medium text-xl">{category}</span>
-</div>
+        <div className="border-t border-zinc-200 pt-6">
+          <div className="grid grid-cols-2 ">
+            <ul className="space-y-3">
+              <li>
+                <span className="text-gray-500">Number of Pages:</span>{" "}
+              </li>
 
-{/* review section */}
+              <li>
+                <span className="text-gray-500">Publisher::</span>
+              </li>
+              <li>
+                <span className="text-gray-500">Year of Publishing:</span>
+              </li>
+              <li>
+                <span className="text-gray-500">Rating:</span>
+              </li>
+            </ul>
+            <ul className="space-y-3">
+              <li className="flex gap-20">
+                <span className="font-semibold text-black">{totalPages}</span>
+              </li>
+              <li className="flex gap-20">
+                {" "}
+                <span className="font-semibold text-black">{publisher}</span>
+              </li>
+              <li className="flex gap-20">
+                {" "}
+                <span className="font-semibold text-black">
+                  {yearOfPublishing}
+                </span>
+              </li>
+              <li className="flex gap-20">
+                {" "}
+                <span className="font-semibold text-black">{rating}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-<div>
-<p className="text-gray-500 font-medium"><strong className="text-[#111111]">Review: </strong> {review}</p>
-
-</div>
-
-<div className="py-6 flex gap-3 flex-wrap">
-
-<span className="font-bold">Tag </span>
-{tags.map((x,index)=><BookCardTags tag={x} key={index} />)}
-
-
-</div>
-
-
-<div className="border-t border-zinc-200 pt-6">
-
-
-
-<div className="grid grid-cols-2 ">
-
-<ul className="space-y-3">
-  <li><span className="text-gray-500">Number of Pages:</span> </li>
-
-  <li><span className="text-gray-500">Publisher::</span></li>
-  <li><span className="text-gray-500">Year of Publishing:</span></li>
-  <li><span className="text-gray-500">Rating:</span></li>
-</ul>
-<ul className="space-y-3">
-  <li className="flex gap-20"><span className="font-semibold text-black">{totalPages}</span></li>
-  <li className="flex gap-20"> <span className="font-semibold text-black">{publisher}</span></li>
-  <li className="flex gap-20"> <span className="font-semibold text-black">{yearOfPublishing}</span></li>
-  <li className="flex gap-20"> <span className="font-semibold text-black">{rating}</span></li>
-</ul>
-
-</div>
-
-</div>
-
-<div className="mt-8 space-x-4">
-  <button className="btn">Add Readlist</button>
-  <button className="btn text-white bg-(--blueMeno)">Add Whislist</button>
-</div>
-
-</div>
+        <div className="mt-8 space-x-4">
+          <button className="btn" onClick={handleAddReadList}>
+            Add Readlist
+          </button>
+          <button
+            className="btn text-white bg-(--blueMeno)"
+            onClick={handleAddWishlist}
+          >
+            Add Whislist
+          </button>
+        </div>
+      </div>
     </section>
-
   );
 };
 
