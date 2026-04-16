@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import {
   BarChart,
   Bar,
@@ -7,21 +7,35 @@ import {
   CartesianGrid,
   LabelList,
   Tooltip,
-  ResponsiveContainer
-} from 'recharts';
-import { booksContext } from '../../contexts/book-list-data/BooksContext';
+  ResponsiveContainer,
+} from "recharts";
+import { booksContext } from "../../contexts/book-list-data/BooksContext";
+import { useNavigate } from "react-router";
 
-const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red','purple','green','blue','orange','cyan','magenta','yellow'];
+const colors = [
+  "#0088FE",
+  "#00C49F",
+  "#FFBB28",
+  "#FF8042",
+  "red",
+  "purple",
+  "green",
+  "blue",
+  "orange",
+  "cyan",
+  "magenta",
+  "yellow",
+];
 
 // স্যাম্পল ডেটা
 const data = [
-  { name: 'Page A', uv: 3000 },
-  { name: 'Page B', uv: 3000 },
-  { name: 'Page C', uv: 2000 },
-  { name: 'Page D', uv: 2780 },
-  { name: 'Page E', uv: 1890 },
-  { name: 'Page F', uv: 2390 },
-  { name: 'Page G', uv: 3490 },
+  { name: "Page A", uv: 3000 },
+  { name: "Page B", uv: 3000 },
+  { name: "Page C", uv: 2000 },
+  { name: "Page D", uv: 2780 },
+  { name: "Page E", uv: 1890 },
+  { name: "Page F", uv: 2390 },
+  { name: "Page G", uv: 3490 },
 ];
 
 // ত্রিভুজ আকৃতি তৈরির লজিক
@@ -43,7 +57,7 @@ const TriangleBar = (props) => {
       stroke={color}
       strokeWidth={isActive ? 5 : 0}
       fill={color}
-      style={{ transition: 'stroke-width 0.3s ease-out' }}
+      style={{ transition: "stroke-width 0.3s ease-out" }}
     />
   );
 };
@@ -60,34 +74,58 @@ const CustomColorLabel = (props) => {
 };
 
 export default function ReagPagesBarChart() {
+  const { readListData } = useContext(booksContext);
+  const navigate = useNavigate();
 
-  const {readListData}=useContext(booksContext)
+  if (!readListData.length) {
+    return (
+      <>
+        <section className="py-20 space-y-5 text-center">
+          <div className="max-w-md mx-auto space-y-5">
 
+             <div className="text-6xl">📚</div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              No Books in Read List
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Your read list is empty. Add some books to see the chart!
+            </p>
+           
 
+            <div><button className="btn bg-linear-to-r from-green-500 to-red-500 text-white px-6 py-3 rounded-lg shadow-lg hover:from-green-600 hover:to-red-700 transition duration-300" onClick={()=>navigate('/')}>Go to Home</button></div>
+          </div>
+        </section>
+      </>
+    );
+  }
 
   return (
-<section className=''>
-
-      <div style={{ width: '90%', maxWidth:'1280px', margin:'80px auto', height: 400 ,overflow:'hidden'}} className='bg-gray-50 rounded-2xl py-5'>
-      <ResponsiveContainer>
-        <BarChart
-          data={readListData}
-          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="bookName" />
-          <YAxis />
-          <Tooltip cursor={{ fillOpacity: 0.5 }} />
-          <Bar 
-            dataKey="totalPages" 
-            shape={<TriangleBar />} 
-            activeBar 
+    <section className="">
+      <div
+        style={{
+          width: "90%",
+          maxWidth: "1280px",
+          margin: "80px auto",
+          height: 400,
+          overflow: "hidden",
+        }}
+        className="bg-gray-50 rounded-2xl py-5"
+      >
+        <ResponsiveContainer>
+          <BarChart
+            data={readListData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
           >
-            <LabelList dataKey="uv" content={<CustomColorLabel />} />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-</section>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="bookName" />
+            <YAxis />
+            <Tooltip cursor={{ fillOpacity: 0.5 }} />
+            <Bar dataKey="totalPages" shape={<TriangleBar />} activeBar>
+              <LabelList dataKey="uv" content={<CustomColorLabel />} />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </section>
   );
 }
